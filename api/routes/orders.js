@@ -1,5 +1,8 @@
 const express = require('express');
 const routers = express.Router();
+const bodyParser = require('body-parser');
+
+var jsonParser = bodyParser.json()
 
 
 routers.get('/', (req, res, next) => {
@@ -7,9 +10,14 @@ routers.get('/', (req, res, next) => {
           message: 'Orders Fetched'
     });
 })
-routers.post('/', (req, res, next) => {
+routers.post('/', jsonParser, (req, res, next) => {
+    const orderBody={
+        productId: req.body.productId,
+        quantity: req.body.quantity
+    }
     res.status(201).json({
-          message: 'Orders Created'
+          message: 'Orders Created',
+          order: orderBody,
     });
 })
 routers.get('/:id', (req, res, next) => {

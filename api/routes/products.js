@@ -1,5 +1,8 @@
 const express = require('express');
 const routes = express.Router();
+const bodyParser = require('body-parser');
+
+var jsonParser = bodyParser.json()
 
 routes.get('/', (req, res, next) => {
     res.status(200).json({
@@ -7,9 +10,14 @@ routes.get('/', (req, res, next) => {
     });
 })
 
-routes.post('/', (req, res, next) => {
+routes.post('/', jsonParser,(req, res, next) => {
+    const product = {
+        name: req.body.name,
+        price: req.body.price
+    };
     res.status(201).json({
-          message: 'Handling Post requests /products'
+          message: 'Handling Post requests /products',
+            createdProduct: product
     });
 })
 routes.patch('/', (req, res, next) => {
