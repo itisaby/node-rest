@@ -2,10 +2,25 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 const productRoutes = require('./api/routes/products');
 const order = require('./api/routes/orders');
 
-//Routes handling all the requests
+const username = "node-rest";
+const password = process.env.MONGOPWD;
+const cluster = "Cluster1";
+const dbname = "NODE-REST";
+
+mongoose.connect(
+  `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`, 
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  }
+);
+// Routes handling all the requests
 app.use("/products", productRoutes);
 app.use("/order", order);
 
