@@ -1,7 +1,7 @@
 const express = require('express');
 const routes = express.Router();
 const bodyParser = require('body-parser');
-
+const Product = require('../Models/products');
 var jsonParser = bodyParser.json()
 
 routes.get('/', (req, res, next) => {

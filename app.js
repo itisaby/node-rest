@@ -8,15 +8,14 @@ const productRoutes = require('./api/routes/products');
 const order = require('./api/routes/orders');
 
 const username = "node-rest";
-const password = process.env.MONGOPWD;
+const password = "noderest";
 const cluster = "Cluster1";
 const dbname = "NODE-REST";
 
 mongoose.connect(
-  `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`, 
+  `mongodb+srv://node-rest:${password}@cluster1.fstlx.mongodb.net/nodedb?retryWrites=true&w=majority`, 
   {
     useNewUrlParser: true,
-    useFindAndModify: false,
     useUnifiedTopology: true
   }
 );
