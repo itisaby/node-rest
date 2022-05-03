@@ -27,9 +27,11 @@ mongoose.connect(
         console.log('Connection failed');
     }
     );
+mongoose.Promise = global.Promise;
+
 // Routes handling all the requests
 app.use("/products", productRoutes);
-app.use("/order", order);
+app.use("/orders", order);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
