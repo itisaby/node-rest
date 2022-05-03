@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const productRoutes = require('./api/routes/products');
-const order = require('./api/routes/orders');
+const orderRoutes = require('./api/routes/orders');
 
 const username = "node-rest";
 const password = process.env.PASSWORD;
@@ -31,7 +31,7 @@ mongoose.Promise = global.Promise;
 
 // Routes handling all the requests
 app.use("/products", productRoutes);
-app.use("/orders", order);
+app.use("/orders", orderRoutes);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
