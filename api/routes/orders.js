@@ -7,7 +7,6 @@ const Order = require('../Models/order');
 // const Product = require('../Models/products');
 var jsonParser = bodyParser.json()
 
-
 routers.get('/', (req, res, next) => {
     res.status(200).json({
         message: 'Orders Fetched'
