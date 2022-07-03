@@ -39,7 +39,7 @@ routes.get('/', (req, res, next) => {
 
 routes.post('/', jsonParser, (req, res, next) => {
     const product = new Product({
-        _id: mongoose.Types.ObjectId(),
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price
     })
