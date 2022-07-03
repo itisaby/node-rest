@@ -10,12 +10,12 @@ const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
 const username = "node-rest";
-const password = process.env.PASSWORD;
+// const password = process.env.PASSWORD;
 const cluster = "Cluster1";
 const dbname = "NODE-REST";
 
 mongoose.connect(
-    `mongodb+srv://node-rest:${password}@cluster1.fstlx.mongodb.net/nodedb?retryWrites=true&w=majority`,
+    `mongodb+srv://node-rest:nodes@cluster1.fstlx.mongodb.net/nodedb1?retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -27,12 +27,16 @@ mongoose.connect(
         console.log('Connection failed');
     }
     );
+    
 mongoose.Promise = global.Promise;
 
 // Routes handling all the requests
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
-
+app.get('/', (req, res) => {
+    res.send('Hello World');
+}
+);
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
     extended: false
