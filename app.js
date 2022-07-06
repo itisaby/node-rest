@@ -25,9 +25,10 @@ mongoose.connect(
 })
     .catch(() => {
         console.log('Connection failed');
+        process.exit();
     }
     );
-    
+
 mongoose.Promise = global.Promise;
 
 // Routes handling all the requests

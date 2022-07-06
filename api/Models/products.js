@@ -11,6 +11,6 @@ const productSchema = mongoose.Schema({
         required: true
     },
 })
-const job = mongoose.model('job', productSchema);
+const job = mongoose.model('product', productSchema);
 
 module.exports = job;

@@ -40,6 +40,7 @@ routers.get('/:id', (req, res, next) => {
         id: id
     });
 })
+
 routers.delete('/:id', (req, res, next) => {
     const id = req.params.id;
     res.status(201).json({
