@@ -21,10 +21,11 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-const upload = multer({ storage: storage, 
+const upload = multer({  
+    storage: storage, 
     limits: {
-    fileSize: 1024 * 1024 * 5
-},
+    fileSize: 1024 * 1024 * 2000
+    },
     fileFilter: fileFilter
 });
 var jsonParser = bodyParser.json()
@@ -62,7 +63,7 @@ routes.get('/', (req, res, next) => {
         });
 })
 
-routes.post('/', upload.single('prod'), (req, res, next) => {
+routes.post('/', upload.single('productImage'), (req, res, next) => {
     console.log(req.file)
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
@@ -105,7 +106,7 @@ routes.patch('/:productId', (req, res, next) => {
         updateOps[ops.propName] = ops.value;
     }
 
-    Product.updateOne({ _id: id }, {
+    Product.update({ _id: id }, {
         $set: updateOps
         // { name: req.body.name, price: req.body.price }
     })
@@ -179,6 +180,7 @@ routes.get("/:productId", (req, res, next) => {
         .select('_id name price productImage')
         .exec()
         .then(product => {
+            console.log("db", product);
             if (product) {
                 res.status(200).json({
                     product: product,
