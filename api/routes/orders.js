@@ -7,8 +7,11 @@ const Order = require('../Models/order');
 const Product = require('../Models/products');
 var jsonParser = bodyParser.json()
 
-routers.get('/', (req, res, next) => {
-    Order.find().exec().then(
+routers.get('/', async (req, res, next) => {
+   await Order.find()
+    .select('_id product quantity')
+    .exec()
+    .then(
         docs => {
             res.status(200).json(
                 {
@@ -38,7 +41,7 @@ routers.get('/', (req, res, next) => {
 })
 
 routers.post('/', jsonParser, (req, res, next) => {
-    Product.findById(req.body.productId).exec().then(
+        Product.findById(req.body.productId).exec().then(
         product => {
             if (!product) {
                 return res.status(404).json({
