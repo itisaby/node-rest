@@ -16,6 +16,7 @@ app.use(limiter);
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 
 const username = "node-rest";
 // const password = process.env.PASSWORD;
@@ -42,6 +43,7 @@ mongoose.Promise = global.Promise;
 // Routes handling all the requests
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
+app.use("/user", userRoutes);
 app.get('/', (req, res) => {
     res.send('Hello World');
 }
