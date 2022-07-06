@@ -77,7 +77,7 @@ routes.patch('/:productId', (req, res, next) => {
         updateOps[ops.propName] = ops.value;
     }
 
-    Product.updateMany({ _id: id }, {
+    Product.updateOne({ _id: id }, {
         $set: updateOps
         // { name: req.body.name, price: req.body.price }
     })
