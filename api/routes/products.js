@@ -3,6 +3,30 @@ const routes = express.Router();
 const bodyParser = require('body-parser');
 const Product = require('../Models/products');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+const upload = multer({ storage: storage, 
+    limits: {
+    fileSize: 1024 * 1024 * 5
+},
+    fileFilter: fileFilter
+});
 var jsonParser = bodyParser.json()
 
 routes.get('/', (req, res, next) => {
@@ -10,7 +34,7 @@ routes.get('/', (req, res, next) => {
     //     message: 'Handling Get requests /products'
     // });
     Product.find()
-        .select('_id name price')  // only return these fields
+        .select('_id name price productImage')  // only return these fields
         .exec()
         .then(docs => {
             const response = {
@@ -20,6 +44,7 @@ routes.get('/', (req, res, next) => {
                         _id: doc._id,
                         name: doc.name,
                         price: doc.price,
+                        productImage: doc.productImage,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:8000/products/' + doc._id
@@ -37,11 +62,13 @@ routes.get('/', (req, res, next) => {
         });
 })
 
-routes.post('/', jsonParser, (req, res, next) => {
+routes.post('/', upload.single('prod'), (req, res, next) => {
+    console.log(req.file)
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     })
     product.save().then(result => {
         // res.status(201).json({
@@ -55,6 +82,7 @@ routes.post('/', jsonParser, (req, res, next) => {
                 _id: result._id,
                 name: result.name,
                 price: result.price,
+                productImage: result.productImage,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:8000/products/' + result._id
@@ -148,7 +176,7 @@ routes.get("/:productId", (req, res, next) => {
     //     });
     // }
     Product.findById(id)
-        .select('_id name price')
+        .select('_id name price productImage')
         .exec()
         .then(product => {
             if (product) {

@@ -10,6 +10,7 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    productImage:{type: String, required: true}
 })
 const job = mongoose.model('product', productSchema);
 
