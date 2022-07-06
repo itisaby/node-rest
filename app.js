@@ -5,6 +5,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
+var RateLimit = require('express-rate-limit');
+var limiter = RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 5
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
